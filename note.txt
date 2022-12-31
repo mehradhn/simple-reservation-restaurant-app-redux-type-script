@@ -1,0 +1,69 @@
+at first install redux toolkit application
+
+
+
+
+steps:
+    1- set up our store:
+            1)In src: create directory called app
+            2)at app: create store.ts
+            3)configure store:
+                                import {configureStore} from "@reduxjs/toolkit"
+
+            4) now export store 
+                    export const store = configureStore({
+                                                        reducer: {},
+                                                                    });
+
+            5) now export fancy stuff for ts:
+                                            export type RootState = ReturnType<typeof store.getState>;
+                                            export type AppDispatch = typeof store.dispatch;
+
+    2-now concent store to react app go to the App or index
+            1:import Provider from react-redux library
+            2:in index import store and pass it to Provider
+    
+    3-now in src create features directory:
+            1:first import createSlice method from "@reduxjs/toolkit"
+            2:
+                export const reservationSlice = createSlice({
+                     name:"reservations",
+                     initialState,
+                     reducers:{}
+                     }) 
+
+            notice: you can define initialState outside of slicer
+            3: for now we want to export whole slice, for do that:
+                                            export default reservationSlice.reducer
+
+
+
+            4-for write reducers, you should write an arrow
+            function,
+            this function give state and action
+            notice you specified type of action, so at first
+            you import {PayloadAction} from  "@reduxjs/toolkit"
+            so you wite like that
+                addReservation: (state, action: PayloadAction<string>) => {
+                            state.value.push(action.payload);
+                    },
+
+            
+            and also you should define type for initialState 
+            
+            interface reservationState {
+                     value: string[];
+            }
+
+            5- at the end you should export actions so 
+            export const {} = felanSlicers.actions
+
+    4-now we go the App.tsx and at first we try to grab globalstate from slicer
+    for do this we used useSelector
+    for do that:
+                1- import {useSelector} from "react-redux"
+                2- we create const and with useSelector we try to give globalstate
+                const reservations = useSelector((state) => state.reservations.value)
+
+                in redux, we need to dispatch an action
+                so for use action you should import dispatch then import actions
